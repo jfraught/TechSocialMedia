@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct TechSocialMediaSwiftUIApp: App {
+    let session = AppViewModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppView(session: session)
         }
     }
 }
