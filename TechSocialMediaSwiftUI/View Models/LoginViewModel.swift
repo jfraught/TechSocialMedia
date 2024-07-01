@@ -12,8 +12,8 @@ class LoginViewModel: ObservableObject {
     let authenticationController = AuthenticationController()
     var session: AppViewModel
     
-    @Published var email: String = "jordan.fraughton2515@stu.mtec.edu"
-    @Published var password: String = "qoxri1-pupbov-muskuG"
+    @Published var email: String = ""
+    @Published var password: String = ""
     @Published var emailOrPasswordError = ""
     
     init(session: AppViewModel) {
