@@ -12,7 +12,7 @@ struct AppView: View {
     
     var body: some View {
         if session.appState == .loggedIn {
-            ProfileView()
+            ProfileView(viewModel: ProfileViewModel())
         } else if session.appState == .loggedOut {
             LoginView(viewModel: LoginViewModel(session: session))
         }
