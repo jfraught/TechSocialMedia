@@ -7,13 +7,12 @@
 
 import Foundation
 
-@MainActor
 class LoginViewModel: ObservableObject {
-    let authenticationController = AuthenticationController()
+    let networkController = NetworkController()
     var session: AppViewModel
     
-    @Published var email: String = ""
-    @Published var password: String = ""
+    @Published var email: String = "jordan.fraughton2515@stu.mtec.edu"
+    @Published var password: String = "qoxri1-pupbov-muskuG"
     @Published var emailOrPasswordError = ""
     
     init(session: AppViewModel) {
@@ -22,9 +21,9 @@ class LoginViewModel: ObservableObject {
     
     func signIn() {
         guard !email.isEmpty, !password.isEmpty else { return }
-        Task {
+        Task { @MainActor in
             do {
-                let success = try await authenticationController.signIn(email: email, password: password)
+                let success = try await networkController.signIn(email: email, password: password)
                 if success {
                     emailOrPasswordError = ""
                     session.appState = .loggedIn
