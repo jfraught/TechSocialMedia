@@ -16,6 +16,7 @@ class ProfileViewModel: ObservableObject {
     @Published var lastName: String = ""
     @Published var bio: String = ""
     @Published var techIterests: [String] = []
+    @Published var posts: [Post] = []
     
     func getUserProfile() {
         Task { @MainActor in
@@ -27,6 +28,7 @@ class ProfileViewModel: ObservableObject {
                     lastName = userProfile.lastName
                     bio = userProfile.bio ?? ""
                     techIterests = userProfile.techInterests ?? []
+                    posts = userProfile.posts ?? []
                 }
             } catch {
                 print(error)

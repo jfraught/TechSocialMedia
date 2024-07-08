@@ -12,7 +12,7 @@ struct ProfileView: View {
     
     var body: some View {
         NavigationStack {
-            Form {
+            List {
                 Section {
                     Text(viewModel.userName)
                         .fontWeight(.bold)
@@ -39,6 +39,25 @@ struct ProfileView: View {
                     }
                 } header: {
                     Text("About")
+                }
+                
+                Group {
+                    if viewModel.posts.isEmpty {
+                        Section {
+                            Text("No user posts")
+                                .foregroundStyle(.secondary)
+                        } header: {
+                            Text("User Posts")
+                        }
+                    } else {
+                        ForEach(viewModel.posts, id: \.postid) { post in
+                            Section {
+                                PostView(post: post)
+                            } header: {
+                                Text(viewModel.posts[0].postid == post.postid ? "User Posts" : "")
+                            }
+                        }
+                    }
                 }
             }
             .toolbar {

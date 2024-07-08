@@ -14,8 +14,10 @@
 		A9535DCA2C3312FB009335B3 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9535DC92C3312FB009335B3 /* AppView.swift */; };
 		A9535DCC2C33132C009335B3 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9535DCB2C33132C009335B3 /* AppViewModel.swift */; };
 		A9535DD02C33136F009335B3 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9535DCF2C33136F009335B3 /* ProfileViewModel.swift */; };
-		A9535DD22C331655009335B3 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9535DD12C331655009335B3 /* ProfileView.swift */; };
 		A9535DD52C345101009335B3 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9535DD42C345101009335B3 /* UserProfile.swift */; };
+		A96C95912C3C8F190082B0FD /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C95902C3C8F190082B0FD /* ProfileView.swift */; };
+		A96C95932C3C90E00082B0FD /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C95922C3C90E00082B0FD /* PostView.swift */; };
+		A96C95952C3C951E0082B0FD /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C95942C3C951E0082B0FD /* Post.swift */; };
 		A9ECB1582C32F73F00065CDE /* TechSocialMediaSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ECB1572C32F73F00065CDE /* TechSocialMediaSwiftUIApp.swift */; };
 		A9ECB15A2C32F73F00065CDE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ECB1592C32F73F00065CDE /* LoginView.swift */; };
 		A9ECB15C2C32F74000065CDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9ECB15B2C32F74000065CDE /* Assets.xcassets */; };
@@ -30,8 +32,10 @@
 		A9535DC92C3312FB009335B3 /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
 		A9535DCB2C33132C009335B3 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		A9535DCF2C33136F009335B3 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
-		A9535DD12C331655009335B3 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A9535DD42C345101009335B3 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		A96C95902C3C8F190082B0FD /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		A96C95922C3C90E00082B0FD /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
+		A96C95942C3C951E0082B0FD /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		A9ECB1542C32F73F00065CDE /* TechSocialMediaSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechSocialMediaSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9ECB1572C32F73F00065CDE /* TechSocialMediaSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechSocialMediaSwiftUIApp.swift; sourceTree = "<group>"; };
 		A9ECB1592C32F73F00065CDE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -63,9 +67,10 @@
 		A9535DBD2C32FAA4009335B3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A9535DC32C32FC96009335B3 /* API.swift */,
+				A96C95942C3C951E0082B0FD /* Post.swift */,
 				A9535DC12C32FC6C009335B3 /* User.swift */,
 				A9535DD42C345101009335B3 /* UserProfile.swift */,
-				A9535DC32C32FC96009335B3 /* API.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -121,7 +126,8 @@
 			children = (
 				A9535DC92C3312FB009335B3 /* AppView.swift */,
 				A9ECB1592C32F73F00065CDE /* LoginView.swift */,
-				A9535DD12C331655009335B3 /* ProfileView.swift */,
+				A96C95902C3C8F190082B0FD /* ProfileView.swift */,
+				A96C95922C3C90E00082B0FD /* PostView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -198,14 +204,16 @@
 			files = (
 				A9535DC62C32FCFE009335B3 /* NetworkController.swift in Sources */,
 				A9ECB15A2C32F73F00065CDE /* LoginView.swift in Sources */,
-				A9535DD22C331655009335B3 /* ProfileView.swift in Sources */,
 				A9535DCC2C33132C009335B3 /* AppViewModel.swift in Sources */,
 				A9535DD02C33136F009335B3 /* ProfileViewModel.swift in Sources */,
 				A9535DD52C345101009335B3 /* UserProfile.swift in Sources */,
+				A96C95952C3C951E0082B0FD /* Post.swift in Sources */,
 				A9535DC82C330048009335B3 /* LoginViewModel.swift in Sources */,
 				A9535DCA2C3312FB009335B3 /* AppView.swift in Sources */,
 				A9ECB1582C32F73F00065CDE /* TechSocialMediaSwiftUIApp.swift in Sources */,
 				A9535DC42C32FC96009335B3 /* API.swift in Sources */,
+				A96C95912C3C8F190082B0FD /* ProfileView.swift in Sources */,
+				A96C95932C3C90E00082B0FD /* PostView.swift in Sources */,
 				A9535DC22C32FC6C009335B3 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
