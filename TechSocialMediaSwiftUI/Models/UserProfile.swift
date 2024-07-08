@@ -14,6 +14,7 @@ struct UserProfile: Codable {
     var userUUID: String
     var bio: String?
     var techInterests: [String]?
+    var posts: [Post]?
     
     static var current: UserProfile?
 }
