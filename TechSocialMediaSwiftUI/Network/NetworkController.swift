@@ -12,9 +12,17 @@ class NetworkController {
         case couldNotSignIn
         case noCurrentUser
         case couldNotGetUserProfile
+        case couldNotSavePost
     }
     
-    let decoder = JSONDecoder()
+    let decoder: JSONDecoder
+    
+    init() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(formatter)
+    }
     
     func signIn(email: String, password: String) async throws -> Bool {
         let session = URLSession.shared
@@ -57,11 +65,32 @@ class NetworkController {
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw NetworkError.couldNotGetUserProfile
         }
-        
+                
         let userProfile = try decoder.decode(UserProfile.self, from: data)
 
         UserProfile.current = userProfile
         
         return true 
+    }
+    
+    func createPost(title: String, body: String) async throws -> Bool {
+        guard let user = User.current else { throw NetworkError.noCurrentUser }
+        let session = URLSession.shared
+
+        var request = URLRequest(url: URL(string: "\(API.url)/createPost")!)
+        
+        let body: [String: Any] = [ "userSecret": user.secret.uuidString, "post" : ["title": title, "body": body]]
+        
+        request.httpBody = try JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (_, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.couldNotSavePost
+        }
+        
+        return true
     }
 }

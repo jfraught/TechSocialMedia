@@ -54,12 +54,15 @@ struct ProfileView: View {
                             Section {
                                 PostView(post: post)
                             } header: {
-                                Text(viewModel.posts[0].postid == post.postid ? "User Posts" : "")
+                                if viewModel.posts[0].postid == post.postid {
+                                    Text("User Posts")
+                                }
                             }
                         }
                     }
                 }
             }
+            .listSectionSpacing(10)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Profile")
@@ -75,7 +78,6 @@ struct ProfileView: View {
                             .foregroundStyle(.white)
                     }
                 }
-    
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.MTECH, for: .navigationBar)

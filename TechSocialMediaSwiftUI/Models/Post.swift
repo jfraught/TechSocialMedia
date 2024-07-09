@@ -8,13 +8,15 @@
 import Foundation
 
 struct Post: Codable {
-    var postid: UUID
+    var postid: Int
     var title: String
     var body: String
     var authorUserName: String
-    var autherUserID: UUID
+    var authorUserId: UUID
     var likes: Int
     var userLiked: Bool
     var numComments: Int
     var createdDate: Date
+    
+    static var posts: [Post]? 
 }
