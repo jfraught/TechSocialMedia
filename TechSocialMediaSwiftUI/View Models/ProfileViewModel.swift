@@ -7,7 +7,6 @@
 
 import Foundation
 
-@MainActor
 class ProfileViewModel: ObservableObject {
     let networkController = NetworkController()
     
