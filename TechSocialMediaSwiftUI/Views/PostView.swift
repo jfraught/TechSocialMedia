@@ -8,40 +8,65 @@
 import SwiftUI
 
 struct PostView: View {
-    var post: Post
+    @ObservedObject var postViewModel: PostViewModel
+    @ObservedObject var profileViewModel: ProfileViewModel
     
     var body: some View {
-        VStack {
-            Text(post.title)
+        VStack(alignment: .leading) {
             HStack {
-                Text(post.authorUserName)
-                    .fontWeight(.bold)
-                Text(post.createdDate.description)
-                    .foregroundStyle(.secondary)
+                Text(postViewModel.post.title)
+                    .font(.headline)
+                
                 Spacer()
-                Button {
+                
+                Menu {
+                    Button {
+                        
+                    } label: {
+                        Text("Edit")
+                    }
                     
+                    Button(role: .destructive) {
+                        postViewModel.deletPost()
+                        profileViewModel.getUserProfile()
+                    } label: {
+                        Text("Delete")
+                    }
                 } label: {
                     Image(systemName: "ellipsis")
                 }
                 .foregroundStyle(.secondary)
             }
-            Text(post.body)
+            
+            Text(postViewModel.post.body)
         }
+        
         HStack {
+            Text(postViewModel.post.authorUserName)
+                .font(.caption)
+            
+            Text(postViewModel.post.createdDate, format: .dateTime.day().month().year())
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            
+            Spacer()
+            
             Button {
                 
             } label: {
                 Image(systemName: "heart")
             }
             .foregroundStyle(.black)
+            
             Text("2")
+            
             Button {
                 
             } label: {
                 Image(systemName: "bubble.right")
             }
             .foregroundStyle(.black)
+            
             Text("1")
         }
     }

@@ -23,14 +23,12 @@ struct PostEditorView: View {
                         }
                         
                         Section {
-                            TextField("What's new?", text: $viewModel.body)
+                            TextField("What's new?", text: $viewModel.body, axis: .vertical)
                         } header: {
                             Text("Body")
                         }
                     }
-                }
-                
-                if viewModel.isLoading {
+                } else {
                     ProgressView()
                         .progressViewStyle(.circular)
                 }
@@ -65,8 +63,6 @@ struct PostEditorView: View {
             .toolbarBackground(.visible, for: .navigationBar)
         }
     }
-        
-    
 }
 
 #Preview {
