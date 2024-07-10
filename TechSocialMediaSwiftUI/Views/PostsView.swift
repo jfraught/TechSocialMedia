@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct PostsView: View {
-    @ObservedObject var viewModel: PostsViewModel
+    @ObservedObject var postsViewModel: PostsViewModel
+    @ObservedObject var profileViewModel: ProfileViewModel
     @State private var showingNewPostCreator = false
     
     var body: some View {
@@ -31,7 +32,7 @@ struct PostsView: View {
                             .foregroundStyle(.white)
                     }
                     .sheet(isPresented: $showingNewPostCreator) {
-                        PostEditorView(viewModel: PostEditorViewModel())
+                        PostEditorView(postEditorViewModel: PostEditorViewModel(existingPost: nil), profileViewModel: profileViewModel)
                     }
                 }
     
@@ -44,5 +45,5 @@ struct PostsView: View {
 }
 
 #Preview {
-    PostsView(viewModel: PostsViewModel())
+    PostsView(postsViewModel: PostsViewModel(), profileViewModel: ProfileViewModel())
 }
