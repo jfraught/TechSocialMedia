@@ -8,35 +8,36 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @ObservedObject var viewModel: ProfileViewModel
+    @ObservedObject var profileViewModel: ProfileViewModel
+    @ObservedObject var postsViewModel: PostsViewModel
     
     var body: some View {
         NavigationStack {
             List {
                 Section {
-                    Text(viewModel.userName)
+                    Text(profileViewModel.userName)
                         .fontWeight(.bold)
                     
-                    Text(viewModel.firstName)
+                    Text(profileViewModel.firstName)
                     
-                    Text(viewModel.lastName)
+                    Text(profileViewModel.lastName)
                 } header: {
                     Text("Names")
                 }
                 
                 Section {
-                    if viewModel.bio.isEmpty {
+                    if profileViewModel.bio.isEmpty {
                         Text("Bio is empty")
                             .foregroundStyle(.secondary)
                     } else {
-                        Text(viewModel.bio)
+                        Text(profileViewModel.bio)
                     }
                     
-                    if viewModel.bio.isEmpty {
+                    if profileViewModel.bio.isEmpty {
                         Text("Tech interesests is empty")
                             .foregroundStyle(.secondary)
                     } else {
-                        ForEach(viewModel.techIterests, id: \.self) { techInterest in
+                        ForEach(profileViewModel.techIterests, id: \.self) { techInterest in
                             Text(techInterest)
                         }
                     }
@@ -45,7 +46,7 @@ struct ProfileView: View {
                 }
                 
                 Group {
-                    if viewModel.posts.isEmpty {
+                    if profileViewModel.posts.isEmpty {
                         Section {
                             Text("No user posts")
                                 .foregroundStyle(.secondary)
@@ -53,21 +54,20 @@ struct ProfileView: View {
                             Text("User Posts")
                         }
                     } else {
-                        ForEach(viewModel.posts, id: \.postid) { post in
+                        ForEach(profileViewModel.posts, id: \.postid) { post in
                             Section {
-                                PostView(postViewModel: PostViewModel(post: post), profileViewModel: viewModel)
+                                PostView(postViewModel: PostViewModel(post: post), profileViewModel: profileViewModel, postsViewModel: postsViewModel)
                             } header: {
-                                if viewModel.posts[0].postid == post.postid {
+                                if profileViewModel.posts[0].postid == post.postid {
                                     Text("User Posts")
                                 }
                             }
                         }
                     }
                 }
-                
             }
-            .sheet(isPresented: $viewModel.showingNewPostCreator) {
-                PostEditorView(postEditorViewModel: PostEditorViewModel(existingPost: viewModel.postToBeEditted), profileViewModel: viewModel)
+            .sheet(isPresented: $profileViewModel.showingNewPostCreator, onDismiss: { postsViewModel.reloadPosts() }) {
+                PostEditorView(postEditorViewModel: PostEditorViewModel(existingPost: profileViewModel.postToBeEditted), profileViewModel: profileViewModel)
             }
             .listSectionSpacing(10)
             .toolbar {
@@ -91,11 +91,11 @@ struct ProfileView: View {
             .toolbarBackground(.visible, for: .navigationBar)
         }
         .onAppear {
-            viewModel.getUserProfile()
+            profileViewModel.getUserProfile()
         }
     }
 }
 
 #Preview {
-    ProfileView(viewModel: ProfileViewModel())
+    ProfileView(profileViewModel: ProfileViewModel(), postsViewModel: PostsViewModel())
 }

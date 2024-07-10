@@ -18,5 +18,5 @@ struct Post: Codable {
     var numComments: Int
     var createdDate: Date
     
-    static var posts: [Post]? 
+    static var loadedPosts = [Post]()
 }

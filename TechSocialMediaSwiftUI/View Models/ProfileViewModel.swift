@@ -29,7 +29,7 @@ class ProfileViewModel: ObservableObject {
                     lastName = userProfile.lastName
                     bio = userProfile.bio ?? ""
                     techIterests = userProfile.techInterests ?? []
-                    posts = userProfile.posts ?? []
+                    posts = userProfile.posts?.reversed() ?? []
                 }
             } catch {
                 print(error)

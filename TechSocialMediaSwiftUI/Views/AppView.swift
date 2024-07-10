@@ -9,16 +9,18 @@ import SwiftUI
 
 struct AppView: View {
     @ObservedObject var session: AppViewModel
-    let profileViewModel = ProfileViewModel()
+    @StateObject var profileViewModel = ProfileViewModel()
+    @StateObject var postsViewModel = PostsViewModel()
+    
     var body: some View {
         if session.appState == .loggedIn {
             TabView() {
-                ProfileView(viewModel: profileViewModel)
+                ProfileView(profileViewModel: profileViewModel, postsViewModel: postsViewModel)
                     .tabItem {
                         Label("Profile", systemImage:  "person.crop.circle")
                     }
                 
-                PostsView(postsViewModel: PostsViewModel(), profileViewModel: profileViewModel)
+                PostsView(postsViewModel: postsViewModel, profileViewModel: profileViewModel)
                     .tabItem {
                         Label("Posts", systemImage:  "signpost.right")
                     }
