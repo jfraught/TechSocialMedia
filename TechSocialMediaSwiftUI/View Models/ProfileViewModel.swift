@@ -16,6 +16,8 @@ class ProfileViewModel: ObservableObject {
     @Published var bio: String = ""
     @Published var techIterests: [String] = []
     @Published var posts: [Post] = []
+    @Published var showingNewPostCreator = false 
+    @Published var postToBeEditted: Post? 
     
     func getUserProfile() {
         Task { @MainActor in

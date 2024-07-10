@@ -21,7 +21,9 @@ struct PostView: View {
                 
                 Menu {
                     Button {
+                        profileViewModel.showingNewPostCreator.toggle()
                         
+                        profileViewModel.postToBeEditted = postViewModel.post
                     } label: {
                         Text("Edit")
                     }

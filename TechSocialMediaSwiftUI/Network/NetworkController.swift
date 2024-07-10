@@ -94,6 +94,26 @@ class NetworkController {
         return true
     }
     
+    func updatePost(postid: Int, title: String, body: String) async throws -> Bool {
+        guard let user = User.current else { throw NetworkError.noCurrentUser }
+        
+        var request = URLRequest(url: URL(string: "\(API.url)/editPost")!)
+        
+        let body: [String: Any] = [ "userSecret": user.secret.uuidString, "post" : ["postid": postid, "title": title, "body": body]]
+        
+        request.httpBody = try JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (_, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.couldNotSavePost
+        }
+        
+        return true
+    }
+    
     func deletePost(postId: Int) async throws {
         guard let user = User.current else { throw NetworkError.noCurrentUser }
         
@@ -108,7 +128,7 @@ class NetworkController {
         request.httpMethod = "DELETE"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
-        let (data, response) = try await session.data(for: request)
+        let (_, response) = try await session.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw NetworkError.couldNotDeletPost

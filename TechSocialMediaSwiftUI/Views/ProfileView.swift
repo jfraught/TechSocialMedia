@@ -64,6 +64,10 @@ struct ProfileView: View {
                         }
                     }
                 }
+                
+            }
+            .sheet(isPresented: $viewModel.showingNewPostCreator) {
+                PostEditorView(postEditorViewModel: PostEditorViewModel(existingPost: viewModel.postToBeEditted), profileViewModel: viewModel)
             }
             .listSectionSpacing(10)
             .toolbar {
