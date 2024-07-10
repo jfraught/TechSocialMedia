@@ -10,13 +10,30 @@ import SwiftUI
 struct PostsView: View {
     @ObservedObject var postsViewModel: PostsViewModel
     @ObservedObject var profileViewModel: ProfileViewModel
-    @State private var showingNewPostCreator = false
     
     var body: some View {
         NavigationStack {
             List {
-                Text("Test")
+                ForEach(postsViewModel.posts, id: \.postid) { post in
+                    Section {
+                        PostView(postViewModel: PostViewModel(post: post), profileViewModel: profileViewModel, postsViewModel: postsViewModel)
+                    }
+                }
+                switch postsViewModel.state {
+                case .loadingNextPage:
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                case .notLoading:
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .onAppear {
+                            postsViewModel.getPosts()
+                        }
+                case .noMoreData:
+                    EmptyView()
+                }
             }
+            .listSectionSpacing(10)
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text("Posts")
@@ -26,12 +43,12 @@ struct PostsView: View {
                 
                 ToolbarItem(placement: .primaryAction) {
                     Button {
-                        showingNewPostCreator.toggle()
+                        postsViewModel.showingNewPostCreator.toggle()
                     } label: {
                         Image(systemName: "plus")
                             .foregroundStyle(.white)
                     }
-                    .sheet(isPresented: $showingNewPostCreator) {
+                    .sheet(isPresented: $postsViewModel.showingNewPostCreator, onDismiss: { postsViewModel.reloadPosts() }) {
                         PostEditorView(postEditorViewModel: PostEditorViewModel(existingPost: nil), profileViewModel: profileViewModel)
                     }
                 }

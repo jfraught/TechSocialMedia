@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct TechSocialMediaSwiftUIApp: App {
-    let session = AppViewModel()
+    @StateObject var session = AppViewModel()
     
     var body: some Scene {
         WindowGroup {

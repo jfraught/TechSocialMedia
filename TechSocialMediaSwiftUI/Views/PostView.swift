@@ -10,6 +10,7 @@ import SwiftUI
 struct PostView: View {
     @ObservedObject var postViewModel: PostViewModel
     @ObservedObject var profileViewModel: ProfileViewModel
+    @ObservedObject var postsViewModel: PostsViewModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -19,25 +20,27 @@ struct PostView: View {
                 
                 Spacer()
                 
-                Menu {
-                    Button {
-                        profileViewModel.showingNewPostCreator.toggle()
+                if UserProfile.current?.userUUID == postViewModel.post.authorUserId {
+                    Menu {
+                        Button {
+                            profileViewModel.showingNewPostCreator.toggle()
+                            profileViewModel.postToBeEditted = postViewModel.post
+                        } label: {
+                            Text("Edit")
+                        }
                         
-                        profileViewModel.postToBeEditted = postViewModel.post
+                        Button(role: .destructive) {
+                            postViewModel.deletPost()
+                            profileViewModel.getUserProfile()
+                            postsViewModel.reloadPosts()
+                        } label: {
+                            Text("Delete")
+                        }
                     } label: {
-                        Text("Edit")
+                        Image(systemName: "ellipsis")
                     }
-                    
-                    Button(role: .destructive) {
-                        postViewModel.deletPost()
-                        profileViewModel.getUserProfile()
-                    } label: {
-                        Text("Delete")
-                    }
-                } label: {
-                    Image(systemName: "ellipsis")
+                    .foregroundStyle(.secondary)
                 }
-                .foregroundStyle(.secondary)
             }
             
             Text(postViewModel.post.body)
@@ -60,7 +63,7 @@ struct PostView: View {
             }
             .foregroundStyle(.black)
             
-            Text("2")
+            Text("\(postViewModel.post.likes)")
             
             Button {
                 
@@ -69,7 +72,7 @@ struct PostView: View {
             }
             .foregroundStyle(.black)
             
-            Text("1")
+            Text("\(postViewModel.post.numComments)")
         }
     }
 }

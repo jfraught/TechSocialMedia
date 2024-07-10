@@ -16,15 +16,8 @@ class NetworkController {
         case couldNotDeletPost
     }
     
-    let decoder: JSONDecoder
+    let decoder = JSONDecoder()
     let session = URLSession.shared
-    
-    init() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .formatted(formatter)
-    }
     
     func signIn(email: String, password: String) async throws -> Bool {
         var request = URLRequest(url: URL(string: "\(API.url)/signIn")!)
@@ -49,6 +42,10 @@ class NetworkController {
     }
     
     func getUser() async throws -> Bool {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        
         guard let user = User.current else { throw NetworkError.noCurrentUser }
         
         let userIDs = ["userUUID": user.userUUID.uuidString, "userSecret": user.secret.uuidString]
@@ -92,6 +89,38 @@ class NetworkController {
         }
         
         return true
+    }
+    
+    func getPosts(pageNumber: Int) async throws -> Bool {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        
+        guard let user = User.current else { throw NetworkError.noCurrentUser }
+        
+        let queryItems = ["userSecret": user.secret.uuidString, "pageNumber": pageNumber.description]
+        
+        var urlComponents = URLComponents(string: "\(API.url)/posts")!
+        urlComponents.queryItems = queryItems.map {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        
+        var request = URLRequest(url: urlComponents.url!)
+        
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.couldNotSavePost
+        }
+        
+        let posts = try decoder.decode([Post].self, from: data)
+        
+        Post.loadedPosts = posts
+        
+        return true 
     }
     
     func updatePost(postid: Int, title: String, body: String) async throws -> Bool {
