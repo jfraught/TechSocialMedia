@@ -16,7 +16,9 @@ struct ProfileView: View {
                 Section {
                     Text(viewModel.userName)
                         .fontWeight(.bold)
+                    
                     Text(viewModel.firstName)
+                    
                     Text(viewModel.lastName)
                 } header: {
                     Text("Names")
@@ -29,6 +31,7 @@ struct ProfileView: View {
                     } else {
                         Text(viewModel.bio)
                     }
+                    
                     if viewModel.bio.isEmpty {
                         Text("Tech interesests is empty")
                             .foregroundStyle(.secondary)
@@ -52,7 +55,7 @@ struct ProfileView: View {
                     } else {
                         ForEach(viewModel.posts, id: \.postid) { post in
                             Section {
-                                PostView(post: post)
+                                PostView(postViewModel: PostViewModel(post: post), profileViewModel: viewModel)
                             } header: {
                                 if viewModel.posts[0].postid == post.postid {
                                     Text("User Posts")

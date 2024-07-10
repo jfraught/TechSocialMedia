@@ -22,6 +22,7 @@
 		A96C95972C3CAB280082B0FD /* PostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C95962C3CAB280082B0FD /* PostsView.swift */; };
 		A96C95992C3CCC8D0082B0FD /* PostsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C95982C3CCC8D0082B0FD /* PostsViewModel.swift */; };
 		A96C959B2C3CD20C0082B0FD /* PostEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A96C959A2C3CD20C0082B0FD /* PostEditorView.swift */; };
+		A98BF7DF2C3DA4F900B2FE5F /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A98BF7DE2C3DA4F900B2FE5F /* PostViewModel.swift */; };
 		A9ECB1582C32F73F00065CDE /* TechSocialMediaSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ECB1572C32F73F00065CDE /* TechSocialMediaSwiftUIApp.swift */; };
 		A9ECB15A2C32F73F00065CDE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9ECB1592C32F73F00065CDE /* LoginView.swift */; };
 		A9ECB15C2C32F74000065CDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9ECB15B2C32F74000065CDE /* Assets.xcassets */; };
@@ -44,6 +45,7 @@
 		A96C95962C3CAB280082B0FD /* PostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsView.swift; sourceTree = "<group>"; };
 		A96C95982C3CCC8D0082B0FD /* PostsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsViewModel.swift; sourceTree = "<group>"; };
 		A96C959A2C3CD20C0082B0FD /* PostEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditorView.swift; sourceTree = "<group>"; };
+		A98BF7DE2C3DA4F900B2FE5F /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		A9ECB1542C32F73F00065CDE /* TechSocialMediaSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TechSocialMediaSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9ECB1572C32F73F00065CDE /* TechSocialMediaSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechSocialMediaSwiftUIApp.swift; sourceTree = "<group>"; };
 		A9ECB1592C32F73F00065CDE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				A9535DC72C330048009335B3 /* LoginViewModel.swift */,
 				A9535DCF2C33136F009335B3 /* ProfileViewModel.swift */,
 				A90332112C3D74F500673ED3 /* PostEditorViewModel.swift */,
+				A98BF7DE2C3DA4F900B2FE5F /* PostViewModel.swift */,
 				A96C95982C3CCC8D0082B0FD /* PostsViewModel.swift */,
 			);
 			path = "View Models";
@@ -220,6 +223,7 @@
 				A9535DCC2C33132C009335B3 /* AppViewModel.swift in Sources */,
 				A9535DD02C33136F009335B3 /* ProfileViewModel.swift in Sources */,
 				A9535DD52C345101009335B3 /* UserProfile.swift in Sources */,
+				A98BF7DF2C3DA4F900B2FE5F /* PostViewModel.swift in Sources */,
 				A96C95952C3C951E0082B0FD /* Post.swift in Sources */,
 				A96C959B2C3CD20C0082B0FD /* PostEditorView.swift in Sources */,
 				A9535DC82C330048009335B3 /* LoginViewModel.swift in Sources */,

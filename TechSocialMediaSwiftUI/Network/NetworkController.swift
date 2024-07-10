@@ -13,9 +13,11 @@ class NetworkController {
         case noCurrentUser
         case couldNotGetUserProfile
         case couldNotSavePost
+        case couldNotDeletPost
     }
     
     let decoder: JSONDecoder
+    let session = URLSession.shared
     
     init() {
         let formatter = DateFormatter()
@@ -25,7 +27,6 @@ class NetworkController {
     }
     
     func signIn(email: String, password: String) async throws -> Bool {
-        let session = URLSession.shared
         var request = URLRequest(url: URL(string: "\(API.url)/signIn")!)
         
         let credentials: [String: Any] = ["email": email, "password": password]
@@ -49,7 +50,7 @@ class NetworkController {
     
     func getUser() async throws -> Bool {
         guard let user = User.current else { throw NetworkError.noCurrentUser }
-        let session = URLSession.shared
+        
         let userIDs = ["userUUID": user.userUUID.uuidString, "userSecret": user.secret.uuidString]
         var urlComponents = URLComponents(string: "\(API.url)/userProfile")!
         urlComponents.queryItems = userIDs.map {
@@ -75,8 +76,7 @@ class NetworkController {
     
     func createPost(title: String, body: String) async throws -> Bool {
         guard let user = User.current else { throw NetworkError.noCurrentUser }
-        let session = URLSession.shared
-
+        
         var request = URLRequest(url: URL(string: "\(API.url)/createPost")!)
         
         let body: [String: Any] = [ "userSecret": user.secret.uuidString, "post" : ["title": title, "body": body]]
@@ -92,5 +92,26 @@ class NetworkController {
         }
         
         return true
+    }
+    
+    func deletePost(postId: Int) async throws {
+        guard let user = User.current else { throw NetworkError.noCurrentUser }
+        
+        let queryItems = ["userSecret": user.secret.uuidString, "postid" : postId.description]
+        var urlComponents = URLComponents(string: "\(API.url)/post")!
+        urlComponents.queryItems = queryItems.map {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        
+        var request = URLRequest(url: urlComponents.url!)
+        
+        request.httpMethod = "DELETE"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.couldNotDeletPost
+        }
     }
 }
