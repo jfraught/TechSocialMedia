@@ -18,6 +18,7 @@ class PostsViewModel: ObservableObject {
     
     @Published var posts: [Post] = []
     @Published var showingNewPostCreator = false
+    @Published var showingComments = false 
     @Published var state = LoadingState.notLoading
     @Published var currentPageNumber = 0
     

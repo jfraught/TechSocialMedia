@@ -19,4 +19,5 @@ struct Post: Codable {
     var createdDate: Date
     
     static var loadedPosts = [Post]()
+    static var postidForComments = 0 
 }
