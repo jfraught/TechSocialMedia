@@ -57,11 +57,12 @@ struct PostView: View {
             Spacer()
             
             Button {
-                
+                postViewModel.likePost()
+                postsViewModel.reloadPosts()
             } label: {
-                Image(systemName: "heart")
+                Image(systemName: postViewModel.postIsLiked ? "heart.fill" : "heart")
             }
-            .foregroundStyle(.black)
+            .foregroundStyle(postViewModel.postIsLiked ? .red : .black)
             
             Text("\(postViewModel.post.likes)")
             
@@ -71,6 +72,7 @@ struct PostView: View {
             } label: {
                 Image(systemName: "bubble.right")
             }
+            .buttonStyle(BorderlessButtonStyle())
             .foregroundStyle(.black)
             
             Text("\(postViewModel.post.numComments)")

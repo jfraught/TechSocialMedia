@@ -220,4 +220,26 @@ class NetworkController {
         
         return newComment
     }
+    
+    func likePost(postid: Int) async throws -> Post {
+        guard let user = User.current else { throw NetworkError.noCurrentUser }
+        
+        var request = URLRequest(url: URL(string: "\(API.url)/updateLikes")!)
+        
+        let body: [String: Any] = ["userSecret": user.secret.uuidString, "postid": postid]
+        
+        request.httpBody = try JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.couldNotPostComment
+        }
+        
+        let postWitUpdatedLikes = try decoder.decode(Post.self, from: data)
+        
+        return postWitUpdatedLikes
+    }
 }
