@@ -54,6 +54,9 @@ struct PostsView: View {
                 }
     
             }
+            .sheet(isPresented: $postsViewModel.showingComments, onDismiss: { postsViewModel.reloadPosts() }, content: {
+                CommentsView(commentsViewModel: CommentsViewModel())
+            })
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.MTECH, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)

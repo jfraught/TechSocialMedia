@@ -66,7 +66,8 @@ struct PostView: View {
             Text("\(postViewModel.post.likes)")
             
             Button {
-                
+                postsViewModel.showingComments.toggle()
+                Post.postidForComments = postViewModel.post.postid
             } label: {
                 Image(systemName: "bubble.right")
             }

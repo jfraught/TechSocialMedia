@@ -14,6 +14,9 @@ class NetworkController {
         case couldNotGetUserProfile
         case couldNotSavePost
         case couldNotDeletPost
+        case couldNotGetPosts
+        case couldNotGetComments
+        case couldNotPostComment
     }
     
     let decoder = JSONDecoder()
@@ -113,7 +116,7 @@ class NetworkController {
         let (data, response) = try await session.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            throw NetworkError.couldNotSavePost
+            throw NetworkError.couldNotGetPosts
         }
         
         let posts = try decoder.decode([Post].self, from: data)
@@ -162,5 +165,59 @@ class NetworkController {
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw NetworkError.couldNotDeletPost
         }
+    }
+    
+    func getComments(postid: Int, pageNumber: Int) async throws -> Bool {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        
+        guard let user = User.current else { throw NetworkError.noCurrentUser }
+        
+        let queryItems = ["userSecret": user.secret.uuidString, "postid": postid.description,"pageNumber": pageNumber.description]
+        
+        var urlComponents = URLComponents(string: "\(API.url)/comments")!
+        urlComponents.queryItems = queryItems.map {
+            URLQueryItem(name: $0.key, value: $0.value)
+        }
+        
+        var request = URLRequest(url: urlComponents.url!)
+        
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.couldNotGetComments
+        }
+        
+        let comments = try decoder.decode([Comment].self, from: data)
+        
+        Comment.loadedComments = comments
+        
+        return true 
+    }
+    
+    func createComment(commentBody: String, postid: Int) async throws -> Comment {
+        guard let user = User.current else { throw NetworkError.noCurrentUser }
+        
+        var request = URLRequest(url: URL(string: "\(API.url)/createComment")!)
+        
+        let body: [String: Any] = ["userSecret": user.secret.uuidString, "commentBody": commentBody, "postid": postid]
+        
+        request.httpBody = try JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.couldNotPostComment
+        }
+        
+        let newComment = try decoder.decode(Comment.self, from: data)
+        
+        return newComment
     }
 }
